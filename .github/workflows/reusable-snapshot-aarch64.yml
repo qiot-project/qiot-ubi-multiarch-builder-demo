@@ -1,0 +1,89 @@
+name: Reusable Nightly Build aarch64 (from Develop branch)
+
+on:
+  workflow_call:
+    # In the reusable workflow, 
+    # use the inputs and secrets keywords 
+    # to define inputs or secrets that will be 
+    # passed from a caller workflow.
+    inputs:
+      CONTAINER_IMAGE_NAME:
+        required: true
+        type: string
+      CONTAINER_IMAGE_VERSION:
+        required: true
+        type: string
+      DOCKER_REPO:
+        required: true
+        type: string
+    secrets:
+      ARTIFACTORY_USERNAME:
+        required: true
+      ARTIFACTORY_TOKEN:
+        required: true
+      QUAY_USERNAME:
+        required: true
+      QUAY_PASSWORD:
+        required: true
+
+
+# In the reusable workflow, 
+# reference the input or secret that you defined in the "on" key in the previous step. 
+# If the secrets are inherited using "secrets: inherit", 
+# you can reference them even if they are not defined in the on key.
+jobs:
+  reusable-snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+      - name: Cache local Maven repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Setup Maven settings.xml
+        uses: whelk-io/maven-settings-xml-action@v18
+        with:
+          servers: |
+            [
+              {
+                "id": "qiot-central",
+                "username": "${env.ARTIFACTORY_USERNAME_REF}",
+                "password": "${env.ARTIFACTORY_TOKEN_REF}"
+              },
+              {
+                "id": "qiot-snapshots",
+                "username": "${env.ARTIFACTORY_USERNAME_REF}",
+                "password": "${env.ARTIFACTORY_TOKEN_REF}"
+              }
+            ]
+#      - name: Build with Maven
+#        env:
+#           ARTIFACTORY_USERNAME_REF: ${{ secrets.ARTIFACTORY_USERNAME }}
+#           ARTIFACTORY_TOKEN_REF: ${{ secrets.ARTIFACTORY_TOKEN }}
+#        run: ./mvnw package -B -Pprod,native
+#      - name: Push Image
+#        run: |
+#          ./mvnw -B -Pdevelop,native oc:build oc:push                           \
+#          -Djkube.docker.push.username=${{ secrets.QUAY_USERNAME }}      \
+#           -Djkube.docker.push.password=${{ secrets.QUAY_PASSWORD }}
+      - name: Build container image
+        run: |
+            docker run --rm --privileged multiarch/qemu-user-static:register --reset
+            docker build -t ${{ inputs.CONTAINER_IMAGE_NAME }}:${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64 -f src/main/docker/Dockerfile.native-aarch64 .
+      - name: Push container image
+        id: push-to-quay
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ inputs.CONTAINER_IMAGE_NAME }}
+          tags: ${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64
+          registry: ${{ inputs.DOCKER_REPO }}
+          username: ${{ secrets.QUAY_ALL_USERNAME }}
+          password: ${{ secrets.QUAY_ALL_PASSWORD }}
