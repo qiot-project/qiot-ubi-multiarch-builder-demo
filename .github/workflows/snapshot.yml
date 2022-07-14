@@ -68,10 +68,10 @@ jobs:
     uses: ./.github/workflows/reusable-snapshot.yml
     # To pass named inputs to a called workflow, use the "with" keyword in a job.
     with:
-      JVM_MODE: ${{needs.define-variables.outputs.jvm-mode}}
+#      JVM_MODE: ${{needs.define-variables.outputs.jvm-mode}}
       NATIVE_MODE: ${{needs.define-variables.outputs.native-mode}}
       X86: ${{needs.define-variables.outputs.x86}}
-      AARCH64: ${{needs.define-variables.outputs.aarch64}} 
+#      AARCH64: ${{needs.define-variables.outputs.aarch64}} 
     # Use the "secrets" keyword to pass named secrets.
     secrets:
       ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
@@ -92,9 +92,9 @@ jobs:
       CONTAINER_IMAGE_NAME: ${{needs.define-variables.outputs.image-name}}
       CONTAINER_IMAGE_VERSION: ${{needs.define-variables.outputs.image-version}}
       DOCKER_REPO: ${{needs.define-variables.outputs.docker-repo}}
-      JVM_MODE: ${{needs.define-variables.outputs.jvm-mode}}
+#      JVM_MODE: ${{needs.define-variables.outputs.jvm-mode}}
       NATIVE_MODE: ${{needs.define-variables.outputs.native-mode}}
-      X86: ${{needs.define-variables.outputs.x86}}
+#      X86: ${{needs.define-variables.outputs.x86}}
       AARCH64: ${{needs.define-variables.outputs.aarch64}}
     # Use the "secrets" keyword to pass named secrets.
     secrets:
