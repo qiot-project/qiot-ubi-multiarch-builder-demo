@@ -16,7 +16,6 @@ on:
       DOCKER_REPO:
         required: true
         type: string
-    inputs:
       NATIVE_MODE:
         required: true
         type: boolean
