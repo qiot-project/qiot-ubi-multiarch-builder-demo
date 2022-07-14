@@ -39,9 +39,17 @@ on:
 # you can reference them even if they are not defined in the on key.
 jobs:
   reusable-snapshot:
-    runs-on: ubuntu-latest
     if: ${{ inputs.NATIVE_MODE == 'true' }} && ${{ inputs.AARCH64 == 'true' }}
+    runs-on: ubuntu-latest
     steps:
+      - name: Check inputs
+        shell: bash
+        run: |
+          echo "CONTAINER_IMAGE_NAME: ${{ inputs.CONTAINER_IMAGE_NAME }}"
+          echo "CONTAINER_IMAGE_VERSION: ${{ inputs.CONTAINER_IMAGE_VERSION }}"
+          echo "DOCKER_REPO: ${{ inputs.DOCKER_REPO }}"
+          echo "NATIVE_MODE: ${{ inputs.NATIVE_MODE }}"
+          echo "AARCH64: ${{ inputs.AARCH64 }}"
       - name: Checkout project
         uses: actions/checkout@v3
       - name: Cache local Maven repository
@@ -71,16 +79,6 @@ jobs:
                 "password": "${env.ARTIFACTORY_TOKEN_REF}"
               }
             ]
-#      - name: Build with Maven
-#        env:
-#           ARTIFACTORY_USERNAME_REF: ${{ secrets.ARTIFACTORY_USERNAME }}
-#           ARTIFACTORY_TOKEN_REF: ${{ secrets.ARTIFACTORY_TOKEN }}
-#        run: ./mvnw package -B -Pprod,native
-#      - name: Push Image
-#        run: |
-#          ./mvnw -B -Pdevelop,native oc:build oc:push                           \
-#          -Djkube.docker.push.username=${{ secrets.QUAY_USERNAME }}      \
-#           -Djkube.docker.push.password=${{ secrets.QUAY_PASSWORD }}
       - name: Build container image
         run: |
             docker run --rm --privileged multiarch/qemu-user-static:register --reset

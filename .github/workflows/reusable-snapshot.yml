@@ -30,9 +30,14 @@ on:
 # you can reference them even if they are not defined in the on key.
 jobs:
   reusable-snapshot:
-    runs-on: ubuntu-latest
     if: ${{ inputs.NATIVE_MODE == 'true' }} && ${{ inputs.X86 == 'true' }}
+    runs-on: ubuntu-latest
     steps:
+      - name: Check inputs
+        shell: bash
+        run: |
+          echo "NATIVE_MODE: ${{ inputs.NATIVE_MODE }}"
+          echo "X86: ${{ inputs.X86 }}"
       - name: Checkout project
         uses: actions/checkout@v3
       - name: Cache local Maven repository
