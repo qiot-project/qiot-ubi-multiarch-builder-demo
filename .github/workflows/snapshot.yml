@@ -31,10 +31,10 @@ jobs:
       image-version: ${{ steps.step2.outputs.image-version }}
       image-name: ${{ steps.step4.outputs.image-name }}
       docker-repo: ${{ steps.step4.outputs.docker-repo }}
-      jvm-mode: ${{ steps.step4.outputs.jvm-mode == 'true' }}
-      native-mode: ${{ steps.step4.outputs.native-mode == 'true' }}
-      x86: ${{ steps.step4.outputs.x86 == 'true' }}
-      aarch64: ${{ steps.step4.outputs.aarch64 == 'true' }}
+      jvm-mode: ${{ steps.step4.outputs.jvm-mode }}
+      native-mode: ${{ steps.step4.outputs.native-mode }}
+      x86: ${{ steps.step4.outputs.x86 }}
+      aarch64: ${{ steps.step4.outputs.aarch64 }}
     steps:
       - id: step1
         name: Checkout project

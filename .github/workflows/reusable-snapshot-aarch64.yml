@@ -18,10 +18,10 @@ on:
         type: string
       NATIVE_MODE:
         required: true
-        type: boolean
+        type: string
       AARCH64:
         required: true
-        type: boolean
+        type: string
     secrets:
       ARTIFACTORY_USERNAME:
         required: true
@@ -40,7 +40,7 @@ on:
 jobs:
   reusable-snapshot:
     runs-on: ubuntu-latest
-    if: inputs.NATIVE_MODE && inputs.AARCH64
+    if: ${{ inputs.NATIVE_MODE == 'true' }} && ${{ inputs.AARCH64 == 'true' }}
     steps:
       - name: Checkout project
         uses: actions/checkout@v3
