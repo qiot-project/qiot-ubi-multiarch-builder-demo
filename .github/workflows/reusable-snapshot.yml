@@ -7,8 +7,11 @@ on:
     # to define inputs or secrets that will be 
     # passed from a caller workflow.
     inputs:
-      JVM:
-        required: false
+      NATIVE_MODE:
+        required: true
+        type: boolean
+      X86:
+        required: true
         type: boolean
     secrets:
       ARTIFACTORY_USERNAME:
@@ -28,6 +31,7 @@ on:
 jobs:
   reusable-snapshot:
     runs-on: ubuntu-latest
+    if: inputs.NATIVE_MODE && inputs.X86
     steps:
       - name: Checkout project
         uses: actions/checkout@v3

@@ -16,6 +16,13 @@ on:
       DOCKER_REPO:
         required: true
         type: string
+    inputs:
+      NATIVE_MODE:
+        required: true
+        type: boolean
+      AARCH64:
+        required: true
+        type: boolean
     secrets:
       ARTIFACTORY_USERNAME:
         required: true
@@ -34,6 +41,7 @@ on:
 jobs:
   reusable-snapshot:
     runs-on: ubuntu-latest
+    if: inputs.NATIVE_MODE && inputs.AARCH64
     steps:
       - name: Checkout project
         uses: actions/checkout@v3
