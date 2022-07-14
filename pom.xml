@@ -16,6 +16,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.parameters>true</maven.compiler.parameters>
+        <jkube.version>1.8.0</jkube.version>
+        <jandex-plugin.version>1.2.2</jandex-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -50,6 +52,24 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.eclipse.jkube</groupId>
+                <artifactId>openshift-maven-plugin</artifactId>
+                <version>${jkube.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jboss.jandex</groupId>
+                <artifactId>jandex-maven-plugin</artifactId>
+                <version>${jandex-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>make-index</id>
+                        <goals>
+                            <goal>jandex</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler-plugin.version}</version>
             </plugin>
@@ -80,6 +100,14 @@
 
 
     <profiles>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <jkube.environment>prod</jkube.environment>
+                <jkube.build.strategy>jib</jkube.build.strategy>
+                <jkube.generator.name>quay.io/qiotproject/quarkus-quickstart-getting-started:${project.version}</jkube.generator.name>
+            </properties>
+        </profile>
         <profile>
             <id>native</id>
             <activation>

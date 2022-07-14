@@ -85,5 +85,5 @@ jobs:
           image: ${{ inputs.CONTAINER_IMAGE_NAME }}
           tags: ${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64
           registry: ${{ inputs.DOCKER_REPO }}
-          username: ${{ secrets.QUAY_ALL_USERNAME }}
-          password: ${{ secrets.QUAY_ALL_PASSWORD }}
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
