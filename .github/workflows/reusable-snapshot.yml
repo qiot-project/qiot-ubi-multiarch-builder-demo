@@ -66,6 +66,5 @@ jobs:
 #        if: ${{ inputs.JVM }}
 #        run: ./mvnw -B clean package -Pprod oc:build oc:push -Djkube.docker.push.username=${{ secrets.QUAY_USERNAME }} -Djkube.docker.push.password=${{ secrets.QUAY_PASSWORD }} 
       - name: Build and push NATIVE
-        if: ${{ !inputs.JVM }}
         run: ./mvnw -B clean package -Pprod,native oc:build oc:push -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Djkube.docker.push.username=${{ secrets.QUAY_USERNAME }} -Djkube.docker.push.password=${{ secrets.QUAY_PASSWORD }} 
         
