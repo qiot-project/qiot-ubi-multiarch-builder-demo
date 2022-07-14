@@ -40,9 +40,9 @@ jobs:
         name: Checkout project
         uses: actions/checkout@v3
       - id: step2
-        name: Set image tag version
+        name: Output project version
         run: |
-          echo "::set-env name=image-version::$(mvn org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)"
+          echo "::set-output name=image-version::$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)"
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       - id: step3
