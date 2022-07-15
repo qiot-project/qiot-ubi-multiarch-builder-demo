@@ -65,7 +65,7 @@ jobs:
     needs: define-variables
     #if: needs.define-variables.outputs.x86 && needs.define-variables.outputs.native-mode
 #    environment: development
-    uses: ./.github/workflows/reusable-snapshot.yml
+    uses: ./.github/workflows/reusable-snapshot-native.yml
     # To pass named inputs to a called workflow, use the "with" keyword in a job.
     with:
       NATIVE_MODE: ${{needs.define-variables.outputs.native-mode}}
@@ -84,7 +84,7 @@ jobs:
     needs: define-variables
     #if: needs.define-variables.outputs.aarch64 && needs.define-variables.outputs.native-mode
 #    environment: development
-    uses: ./.github/workflows/reusable-snapshot-aarch64.yml
+    uses: ./.github/workflows/reusable-snapshot-native-aarch64.yml
     # To pass named inputs to a called workflow, use the "with" keyword in a job.
     with:
       CONTAINER_IMAGE_NAME: ${{needs.define-variables.outputs.image-name}}
