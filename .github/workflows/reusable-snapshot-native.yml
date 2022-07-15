@@ -30,9 +30,6 @@ on:
 # you can reference them even if they are not defined in the on key.
 jobs:
   reusable-snapshot:
-    if: |
-       inputs.NATIVE_MODE == 'true' &&
-       inputs.X86 == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check inputs
