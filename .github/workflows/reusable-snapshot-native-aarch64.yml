@@ -86,7 +86,7 @@ jobs:
       - name: Push container image
         id: push-to-quay
         run: |
-            docker push ${{ inputs.DOCKER_REPO }}/${{ inputs.CONTAINER_IMAGE_NAME }}:${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64  -u="${QUAY_USERNAME}" -p="${QUAY_PASSWORD}"
+            docker push ${{ inputs.DOCKER_REPO }}/${{ inputs.CONTAINER_IMAGE_NAME }}:${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64  -u="${{ secrets.QUAY_USERNAME }}" -p="$${{ secrets.QUAY_PASSWORD }}"
 #        uses: redhat-actions/push-to-registry@v2
 #        with:
 #          image: ${{ inputs.CONTAINER_IMAGE_NAME }}
