@@ -85,10 +85,12 @@ jobs:
             docker build -t ${{ inputs.CONTAINER_IMAGE_NAME }}:${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64 -f src/main/docker/Dockerfile.native-aarch64 .
       - name: Push container image
         id: push-to-quay
-        uses: redhat-actions/push-to-registry@v2
-        with:
-          image: ${{ inputs.CONTAINER_IMAGE_NAME }}
-          tags: ${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64
-          registry: ${{ inputs.DOCKER_REPO }}
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_PASSWORD }}
+        run: |
+            docker push ${{ inputs.DOCKER_REPO }}/${{ inputs.CONTAINER_IMAGE_NAME }}:${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64  -u="${QUAY_USERNAME}" -p="${QUAY_PASSWORD}"
+#        uses: redhat-actions/push-to-registry@v2
+#        with:
+#          image: ${{ inputs.CONTAINER_IMAGE_NAME }}
+#          tags: ${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64
+#          registry: ${{ inputs.DOCKER_REPO }}
+#          username: ${{ secrets.QUAY_USERNAME }}
+#          password: ${{ secrets.QUAY_PASSWORD }}
