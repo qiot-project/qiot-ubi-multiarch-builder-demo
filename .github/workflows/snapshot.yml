@@ -31,10 +31,10 @@ jobs:
       image-version: ${{ steps.step2.outputs.image-version }}
       image-name: ${{ steps.step4.outputs.image-name }}
       docker-repo: ${{ steps.step4.outputs.docker-repo }}
-      jvm-mode: ${{ steps.step4.outputs.jvm-mode }}
-      native-mode: ${{ steps.step4.outputs.native-mode }}
-      x86: ${{ steps.step4.outputs.x86 }}
-      aarch64: ${{ steps.step4.outputs.aarch64 }}
+      jvm-x86: ${{ steps.step4.outputs.jvm-x86 }}
+      jvm-aarch64: ${{ steps.step4.outputs.jvm-aarch64 }}
+      native-x86: ${{ steps.step4.outputs.native-x86 }}
+      native-aarch64: ${{ steps.step4.outputs.native-aarch64 }}
     steps:
       - id: step1
         name: Checkout project
@@ -56,23 +56,18 @@ jobs:
         run: |
           echo "::set-output name=image-name::${CONTAINER_IMAGE_NAME}"
           echo "::set-output name=docker-repo::${DOCKER_REPO}"
-          echo "::set-output name=jvm-mode::${JVM_MODE}"
-          echo "::set-output name=native-mode::${NATIVE_MODE}"
-          echo "::set-output name=x86::${X86}"
-          echo "::set-output name=aarch64::${AARCH64}"
+          echo "::set-output name=jvm-x86::${JVM_X86}"
+          echo "::set-output name=jvm-aarch64::${JVM_AARCH64}"
+          echo "::set-output name=native-x86::${NATIVE_X86}"
+          echo "::set-output name=native-aarch64::${NATIVE_AARCH64}"
           
   call-nightly-build-native:
     needs: define-variables
     if: |
-       needs.define-variables.outputs.native-mode == 'true' && 
-       needs.define-variables.outputs.x86 == 'true'
-    #if: needs.define-variables.outputs.x86 && needs.define-variables.outputs.native-mode
-#    environment: development
+       needs.define-variables.outputs.native-x86 == 'true'
     uses: ./.github/workflows/reusable-snapshot-native.yml
     # To pass named inputs to a called workflow, use the "with" keyword in a job.
-    with:
-      NATIVE_MODE: ${{needs.define-variables.outputs.native-mode}}
-      X86: ${{needs.define-variables.outputs.x86}}
+    # with:
     # Use the "secrets" keyword to pass named secrets.
     secrets:
       ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
@@ -86,20 +81,30 @@ jobs:
   call-nightly-build-native-aarch64:
     needs: define-variables
     if: |
-       needs.define-variables.outputs.native-mode == 'true' &&
-       needs.define-variables.outputs.aarch64 == 'true'
-    #if: needs.define-variables.outputs.aarch64 && needs.define-variables.outputs.native-mode
-#    environment: development
+       needs.define-variables.outputs.native-aarch64 == 'true'
     uses: ./.github/workflows/reusable-snapshot-native-aarch64.yml
     # To pass named inputs to a called workflow, use the "with" keyword in a job.
     with:
       CONTAINER_IMAGE_NAME: ${{needs.define-variables.outputs.image-name}}
       CONTAINER_IMAGE_VERSION: ${{needs.define-variables.outputs.image-version}}
       DOCKER_REPO: ${{needs.define-variables.outputs.docker-repo}}
-#      JVM_MODE: ${{needs.define-variables.outputs.jvm-mode}}
-      NATIVE_MODE: ${{needs.define-variables.outputs.native-mode}}
-#      X86: ${{needs.define-variables.outputs.x86}}
-      AARCH64: ${{needs.define-variables.outputs.aarch64}}
+    # Use the "secrets" keyword to pass named secrets.
+    secrets:
+      ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+      ARTIFACTORY_TOKEN: ${{ secrets.ARTIFACTORY_TOKEN }}
+      QUAY_USERNAME: ${{ secrets.QUAY_ALL_USERNAME }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_ALL_PASSWORD }}
+    # Workflows that call reusable workflows in the same organization or enterprise
+    #  can use the "inherit" keyword to implicitly pass the secrets.
+      # secrets: inherit
+          
+  call-nightly-build-jvm:
+    needs: define-variables
+    if: |
+       needs.define-variables.outputs.jvm-x86 == 'true'
+    uses: ./.github/workflows/reusable-snapshot-jvm.yml
+    # To pass named inputs to a called workflow, use the "with" keyword in a job.
+    # with:
     # Use the "secrets" keyword to pass named secrets.
     secrets:
       ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}

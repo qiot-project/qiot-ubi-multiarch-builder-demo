@@ -1,4 +1,4 @@
-name: Reusable Nightly Build (from Develop branch)
+name: Reusable Nightly Build (Native x86)
 
 on:
   workflow_call:
@@ -6,13 +6,6 @@ on:
     # use the inputs and secrets keywords 
     # to define inputs or secrets that will be 
     # passed from a caller workflow.
-    inputs:
-      NATIVE_MODE:
-        required: true
-        type: string
-      X86:
-        required: true
-        type: string
     secrets:
       ARTIFACTORY_USERNAME:
         required: true
@@ -32,11 +25,6 @@ jobs:
   reusable-snapshot:
     runs-on: ubuntu-latest
     steps:
-      - name: Check inputs
-        shell: bash
-        run: |
-          echo "NATIVE_MODE: ${{ inputs.NATIVE_MODE }}"
-          echo "X86: ${{ inputs.X86 }}"
       - name: Checkout project
         uses: actions/checkout@v3
       - name: Cache local Maven repository
@@ -66,9 +54,6 @@ jobs:
                 "password": "${env.ARTIFACTORY_TOKEN_REF}"
               }
             ]
-#      - name: Build and push JVM
-#        if: ${{ inputs.JVM }}
-#        run: ./mvnw -B clean package -Pprod oc:build oc:push -Djkube.docker.push.username=${{ secrets.QUAY_USERNAME }} -Djkube.docker.push.password=${{ secrets.QUAY_PASSWORD }} 
-      - name: Build and push NATIVE
+      - name: Build and push
         run: ./mvnw -B clean package -Pprod,native oc:build oc:push -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true -Djkube.docker.push.username=${{ secrets.QUAY_USERNAME }} -Djkube.docker.push.password=${{ secrets.QUAY_PASSWORD }} 
         

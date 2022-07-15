@@ -1,4 +1,4 @@
-name: Reusable Nightly Build aarch64 (from Develop branch)
+name: Reusable Nightly Build (Native aarch64)
 
 on:
   workflow_call:
@@ -14,12 +14,6 @@ on:
         required: true
         type: string
       DOCKER_REPO:
-        required: true
-        type: string
-      NATIVE_MODE:
-        required: true
-        type: string
-      AARCH64:
         required: true
         type: string
     secrets:
@@ -47,8 +41,6 @@ jobs:
           echo "CONTAINER_IMAGE_NAME: ${{ inputs.CONTAINER_IMAGE_NAME }}"
           echo "CONTAINER_IMAGE_VERSION: ${{ inputs.CONTAINER_IMAGE_VERSION }}"
           echo "DOCKER_REPO: ${{ inputs.DOCKER_REPO }}"
-          echo "NATIVE_MODE: ${{ inputs.NATIVE_MODE }}"
-          echo "AARCH64: ${{ inputs.AARCH64 }}"
       - name: Checkout project
         uses: actions/checkout@v3
       - name: Cache local Maven repository
