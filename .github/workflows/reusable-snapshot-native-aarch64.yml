@@ -74,7 +74,7 @@ jobs:
         id: docker-build
         run: |
             docker run --rm --privileged multiarch/qemu-user-static:register --reset
-            docker build -t ${{ inputs.CONTAINER_IMAGE_NAME }}:${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64 -f src/main/docker/Dockerfile.native-aarch64 .
+            docker build -t ${{ inputs.DOCKER_REPO }}/${{ inputs.CONTAINER_IMAGE_NAME }}:${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64 -f src/main/docker/Dockerfile.native-aarch64 .
       - name: Login to Quay.io
         id: docker-login
         uses: docker/login-action@v2
