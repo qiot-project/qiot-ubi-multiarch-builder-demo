@@ -55,5 +55,5 @@ jobs:
               }
             ]
       - name: Build and push
-        run: ./mvnw -B clean package -Pprod oc:build oc:push -Djkube.docker.push.username=${{ secrets.QUAY_USERNAME }} -Djkube.docker.push.password=${{ secrets.QUAY_PASSWORD }} 
+        run: ./mvnw -B clean package -Pprodjvm oc:build oc:push -Djkube.docker.push.username=${{ secrets.QUAY_USERNAME }} -Djkube.docker.push.password=${{ secrets.QUAY_PASSWORD }} 
         
