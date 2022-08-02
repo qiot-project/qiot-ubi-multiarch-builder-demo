@@ -18,6 +18,7 @@
         <maven.compiler.parameters>true</maven.compiler.parameters>
         <jkube.version>1.8.0</jkube.version>
         <jandex-plugin.version>1.2.2</jandex-plugin.version>
+        <release-plugin.version>3.0.0-M6</release-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -70,6 +71,13 @@
                 </executions>
             </plugin>
             <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${release-plugin.version}</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler-plugin.version}</version>
             </plugin>
@@ -106,6 +114,14 @@
                 <jkube.environment>prod</jkube.environment>
                 <jkube.build.strategy>jib</jkube.build.strategy>
                 <jkube.generator.name>quay.io/qiotproject/quarkus-quickstart-getting-started:${project.version}</jkube.generator.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>prodjvm</id>
+            <properties>
+                <jkube.environment>prod</jkube.environment>
+                <jkube.build.strategy>jib</jkube.build.strategy>
+                <jkube.generator.name>quay.io/qiotproject/quarkus-quickstart-getting-started:${project.version}-jvm</jkube.generator.name>
             </properties>
         </profile>
         <profile>

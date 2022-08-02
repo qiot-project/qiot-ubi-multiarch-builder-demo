@@ -86,10 +86,3 @@ jobs:
         id: docker-push
         run: |
             docker push ${{ inputs.DOCKER_REPO }}/${{ inputs.CONTAINER_IMAGE_NAME }}:${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64
-#        uses: redhat-actions/push-to-registry@v2
-#        with:
-#          image: ${{ inputs.CONTAINER_IMAGE_NAME }}
-#          tags: ${{ inputs.CONTAINER_IMAGE_VERSION }}-aarch64
-#          registry: ${{ inputs.DOCKER_REPO }}
-#          username: ${{ secrets.QUAY_USERNAME }}
-#          password: ${{ secrets.QUAY_PASSWORD }}
