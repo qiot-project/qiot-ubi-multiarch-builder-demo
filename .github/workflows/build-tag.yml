@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       image-version: ${{ steps.step2.outputs.image-version }}
-      image-version: ${{ steps.step2.outputs.image-version }}
       image-name: ${{ steps.step4.outputs.image-name }}
       docker-repo: ${{ steps.step4.outputs.docker-repo }}
       jvm-x86: ${{ steps.step4.outputs.jvm-x86 }}
