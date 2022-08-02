@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.acme</groupId>
     <artifactId>getting-started</artifactId>
-    <version>2.9.2-SNAPSHOT</version>
+    <version>2.9.4-SNAPSHOT</version>
 
     <properties>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
@@ -20,6 +20,70 @@
         <jandex-plugin.version>1.2.2</jandex-plugin.version>
         <release-plugin.version>3.0.0-M6</release-plugin.version>
     </properties>
+    
+    <scm>
+        <connection>scm:git:https://github.com/qiot-project/qiot-ubi-multiarch-builder-demo.git</connection>
+        <developerConnection>scm:git:https://github.com/qiot-project/qiot-ubi-multiarch-builder-demo.git/</developerConnection>
+        <url>https://github.com/qiot-project/qiot-ubi-multiarch-builder-demo</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <repositories>
+        <repository>
+            <id>qiot-central</id>
+            <name>a0lz61zjcqpyh-artifactory-primary-0-releases</name>
+            <url>https://hackfest.jfrog.io/artifactory/hackfest-libs-release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>qiot-snapshots</id>
+            <name>a0lz61zjcqpyh-artifactory-primary-0-snapshots</name>
+            <url>https://hackfest.jfrog.io/artifactory/hackfest-libs-snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>qiot-central</id>
+            <name>a0lz61zjcqpyh-artifactory-primary-0-releases</name>
+            <url>https://hackfest.jfrog.io/artifactory/hackfest-libs-release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>qiot-snapshots</id>
+            <name>a0lz61zjcqpyh-artifactory-primary-0-snapshots</name>
+            <url>https://hackfest.jfrog.io/artifactory/hackfest-libs-snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <distributionManagement>
+        <repository>
+            <id>qiot-central</id>
+            <name>a0lz61zjcqpyh-artifactory-primary-0-releases</name>
+            <url>https://hackfest.jfrog.io/artifactory/hackfest-libs-release</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <snapshotRepository>
+            <id>qiot-snapshots</id>
+            <name>a0lz61zjcqpyh-artifactory-primary-0-snapshots</name>
+            <url>https://hackfest.jfrog.io/artifactory/hackfest-libs-snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
