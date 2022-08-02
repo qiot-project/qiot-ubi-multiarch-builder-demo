@@ -30,7 +30,7 @@ jobs:
     uses: qiot-project/qiot-ubi-all-reusable-workflows/.github/workflows/app-github-release.yml@main
     # To pass named inputs to a called workflow, use the "with" keyword in a job.
     with:
-      ACTOR: ${{ secrets.RELEASE_BUILD_PAT }}
+      ACTOR: ${GITHUB_ACTOR}
     # Use the "secrets" keyword to pass named secrets.
     secrets:
       ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
