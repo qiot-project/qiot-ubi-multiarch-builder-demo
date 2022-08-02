@@ -49,7 +49,7 @@ jobs:
     needs: define-variables
     if: |
        needs.define-variables.outputs.native-x86 == 'true'
-    uses: qiot-project/qiot-ubi-all-reusable-workflows/.github/workflows/app-build-native.yml
+    uses: qiot-project/qiot-ubi-all-reusable-workflows/.github/workflows/app-build-native.yml@main
     # To pass named inputs to a called workflow, use the "with" keyword in a job.
     # with:
     # Use the "secrets" keyword to pass named secrets.
@@ -70,7 +70,7 @@ jobs:
     needs: define-variables
     if: |
        needs.define-variables.outputs.native-aarch64 == 'true'
-    uses: qiot-project/qiot-ubi-all-reusable-workflows/.github/workflows/app-build-native-aarch64.yml
+    uses: qiot-project/qiot-ubi-all-reusable-workflows/.github/workflows/app-build-native-aarch64.yml@main
     # To pass named inputs to a called workflow, use the "with" keyword in a job.
     with:
       CONTAINER_IMAGE_NAME: ${{needs.define-variables.outputs.image-name}}
@@ -94,7 +94,7 @@ jobs:
     needs: define-variables
     if: |
        needs.define-variables.outputs.jvm-x86 == 'true'
-    uses: qiot-project/qiot-ubi-all-reusable-workflows/.github/workflows/app-build-jvm.yml
+    uses: qiot-project/qiot-ubi-all-reusable-workflows/.github/workflows/app-build-jvm.yml@main
     # To pass named inputs to a called workflow, use the "with" keyword in a job.
     # with:
     # Use the "secrets" keyword to pass named secrets.
